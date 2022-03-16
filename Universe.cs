@@ -10,22 +10,41 @@ namespace StevenAlexander_GOLProject
     //Class used to store cell info.
     public class Universe
     {
-        static int x;
-        static int y;
+        static int globalX = 25;
+        static int globalY = 25;
 
         //What is the status and size of the universe?
-        private bool[,] universe = new bool[x, y];
+        private bool[,] universe = new bool[globalX, globalY];
 
         //Is the cell alive or dead?
-        private bool[,] alive = new bool[x, y];
+        private bool[,] alive = new bool[globalX, globalY];
 
         //How long has the cell been alive?
-        private int[,] genAlive = new int[x, y];
+        private int[,] genAlive = new int[globalX, globalY];
 
         //Does the cell have any friends?
-        private int[,] numAdj = new int[x, y];
+        private int[,] numAdj = new int[globalX, globalY];
 
-        //Getter/Setter for universe Boolean.
+        public Universe()
+        {
+
+
+
+        }
+
+        public Universe(int x, int y)
+        {
+
+            globalX = x;
+            globalY = y;
+            universe = new bool[x, y];
+            alive = new bool[x, y];
+            genAlive = new int[x, y];
+            numAdj = new int[x, y];
+
+        }
+
+        //Getter/Setter for universe Boolean
         public bool[,] GetUniverse()
         {
 

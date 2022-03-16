@@ -13,18 +13,16 @@ namespace StevenAlexander_GOLProject
 {
     public partial class Form1 : Form
     {
-        // The universe array
-        //bool[,] universe = new bool[100, 50];
         Universe universe = new Universe();
 
-        // Drawing colors
+        //Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Red;
 
-        // The Timer class
+        //The Timer class
         Timer timer = new Timer();
 
-        // Generation count
+        //Generation count
         int generations = 0;
 
         //Stores number of neighbors
@@ -33,13 +31,9 @@ namespace StevenAlexander_GOLProject
         //Generates new Random
         Random rand = new Random();
 
-        //X and Y for picking size of array
-        int x;
-        int y;
-
         //Last filename used and last comment entered
         string lastFileName;
-        string lastComment;
+        //string lastComment;
 
         public Form1()
         {
@@ -98,7 +92,7 @@ namespace StevenAlexander_GOLProject
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetUniverse().GetLength(0); x++)
                 {
-                    
+
                     // A rectangle to represent each cell in pixels
                     Rectangle cellRect = Rectangle.Empty;
                     cellRect.X = x * cellWidth;
@@ -142,9 +136,9 @@ namespace StevenAlexander_GOLProject
                 int y = e.Y / cellHeight;
 
                 // Toggle the cell's state if cell exists
-                if(e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1))
+                if (e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1))
                 {
-                    
+
                     universe.GetUniverse()[x, y] = !universe.GetUniverse()[x, y];
 
                 }
@@ -156,13 +150,13 @@ namespace StevenAlexander_GOLProject
                 }
 
                 // Toggle cell alive or dead
-                if(e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1) && universe.GetUniverse()[x, y])
+                if (e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1) && universe.GetUniverse()[x, y])
                 {
 
                     universe.SetAlive(x, y, true);
 
                 }
-                else if(e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1) && !universe.GetUniverse()[x, y])
+                else if (e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1) && !universe.GetUniverse()[x, y])
                 {
 
                     universe.SetAlive(x, y);
@@ -175,7 +169,7 @@ namespace StevenAlexander_GOLProject
 
                 }
 
-                // Tell Windows you need to repaint
+                //Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
 
             }
@@ -277,7 +271,7 @@ namespace StevenAlexander_GOLProject
                         xCheck = xLen - 1;
 
                     }
-                    
+
                     if (yCheck < 0)
                     {
 
@@ -291,7 +285,7 @@ namespace StevenAlexander_GOLProject
                         xCheck = 0;
 
                     }
-                    
+
                     if (yCheck >= yLen)
                     {
 
@@ -367,7 +361,7 @@ namespace StevenAlexander_GOLProject
 
                     }
                 }
-                
+
                 generations = 0;
                 toolStripStatusLabelGenerations.Text = "Generations = 0";
 
@@ -560,7 +554,7 @@ namespace StevenAlexander_GOLProject
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if(lastFileName != null)
+            if (lastFileName != null)
             {
 
                 //Overwrites last opened/saved file
@@ -762,7 +756,7 @@ namespace StevenAlexander_GOLProject
                 //Variables used to calculate max width, max height, and what row the streamreader is on
                 int maxWidth = 0;
                 int maxHeight = 0;
-                int currentRow = 0;
+                int currentRow = -1;
 
                 //Goes through the file to determine size of the universe
                 while (!reader.EndOfStream)
@@ -785,9 +779,9 @@ namespace StevenAlexander_GOLProject
                         maxHeight++;
 
                     }
-                    
+
                     //If the width is not the same as the row length it changes them to be the same
-                    if(maxWidth != row.Length)
+                    if (maxWidth != row.Length)
                     {
 
                         maxWidth = row.Length;
@@ -796,7 +790,10 @@ namespace StevenAlexander_GOLProject
                 }
 
                 //Resizes universe to saved files config
-                universe.SetUniverse(maxWidth, maxHeight);
+                universe = new Universe(maxHeight, maxWidth);
+
+                //Tell Windows you need to repaint
+                graphicsPanel1.Invalidate();
 
                 //Sets pointer to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -804,16 +801,16 @@ namespace StevenAlexander_GOLProject
                 //Runs through the file reading cells and setting them to alive or dead
                 while (!reader.EndOfStream)
                 {
-                  
+                    currentRow++;
+
                     //Reads one row at a time.
                     string row = reader.ReadLine();
-
-                    currentRow++;
 
                     //Used to ignore comments that start with '#'
                     if (row.StartsWith("#"))
                     {
 
+                        currentRow--;
                         continue;
 
                     }
@@ -821,14 +818,17 @@ namespace StevenAlexander_GOLProject
                     //Iterate through cells to see what to make active
                     for (int xPos = 0; xPos < row.Length; xPos++)
                     {
-                        //If the current position is an 'O' set it to active and alive
-                        if(row[xPos] == 'O')
+                        // If row[xPos] is a 'O' (capital O) then
+                        // set the corresponding cell in the universe to alive.
+                        if (row[xPos] == 'O')
                         {
 
                             universe.SetUniverse(xPos, currentRow, true);
                             universe.SetAlive(xPos, currentRow, true);
 
                         }
+                        // If row[xPos] is a '.' (period) then
+                        // set the corresponding cell in the universe to dead.
                     }
                 }
 
