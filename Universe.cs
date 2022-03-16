@@ -10,8 +10,8 @@ namespace StevenAlexander_GOLProject
     //Class used to store cell info.
     public class Universe
     {
-        static int x = 50;
-        static int y = 50;
+        static int x;
+        static int y;
 
         //What is the status and size of the universe?
         private bool[,] universe = new bool[x, y];
@@ -71,6 +71,7 @@ namespace StevenAlexander_GOLProject
             
         }
 
+        //Getter/Setter for checking how many neighbors a cell has.
         public int[,] GetAdj()
         {
 

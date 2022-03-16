@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,14 @@ namespace StevenAlexander_GOLProject
 
         //Generates new Random
         Random rand = new Random();
+
+        //X and Y for picking size of array
+        int x;
+        int y;
+
+        //Last filename used and last comment entered
+        string lastFileName;
+        string lastComment;
 
         public Form1()
         {
@@ -132,7 +141,7 @@ namespace StevenAlexander_GOLProject
                 // CELL Y = MOUSE Y / CELL HEIGHT
                 int y = e.Y / cellHeight;
 
-                // Toggle the cell's state
+                // Toggle the cell's state if cell exists
                 if(e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1))
                 {
                     
@@ -146,6 +155,7 @@ namespace StevenAlexander_GOLProject
 
                 }
 
+                // Toggle cell alive or dead
                 if(e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1) && universe.GetUniverse()[x, y])
                 {
 
@@ -456,7 +466,7 @@ namespace StevenAlexander_GOLProject
             }
         }
 
-        //Generate universe at random button
+        //Generate universe with random seed
         private void generateRandomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (timer.Enabled == false)
@@ -497,6 +507,7 @@ namespace StevenAlexander_GOLProject
 
         }
 
+        //Generate universe from seed
         private void generateFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -542,6 +553,287 @@ namespace StevenAlexander_GOLProject
 
 
 
+            }
+        }
+
+        //Save
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if(lastFileName != null)
+            {
+
+                //Overwrites last opened/saved file
+                StreamWriter writer = new StreamWriter(lastFileName);
+
+                //Default Comment
+                //Going to add ability to change comment when user saves the file.
+                writer.WriteLine("!This is the default comment.");
+
+                //Used when implementing custom comments
+                //lastComment
+
+                //Iterates through the rows
+                for (int y = 0; y < universe.GetUniverse().GetLength(1); y++)
+                {
+                    //Create a string to represent the current row.
+                    String currentRow = string.Empty;
+
+                    //Iterates through the columns
+                    for (int x = 0; x < universe.GetUniverse().GetLength(0); x++)
+                    {
+                        //If the universe[x,y] is alive then append 'O' (capital O)
+                        //to the row string.
+
+                        if (universe.GetAlive()[x, y])
+                        {
+
+                            currentRow += "O";
+
+                        }
+
+                        //Else if the universe[x,y] is dead then append 'X' (capital X)
+                        //to the row string.
+
+                        else
+                        {
+
+                            currentRow += "X";
+
+                        }
+                    }
+
+                    //Writes the Xs and Os to the .cells file
+                    writer.WriteLine(currentRow);
+
+                }
+
+                //Closes the file.
+                writer.Close();
+
+            }
+            else
+            {
+
+                //Creates new instance of a Save dialog window
+                SaveFileDialog dlg = new SaveFileDialog();
+
+                //Enables the option to filter out all files except those with the .cells extention.
+                dlg.Filter = "All Files|*.*|Cells|*.cells";
+                dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+
+                if (DialogResult.OK == dlg.ShowDialog())
+                {
+
+                    //Creates file with name based on user input
+                    StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                    //Sets lastFileName variable to user input
+                    lastFileName = dlg.FileName;
+
+                    //Default Comment
+                    //Going to add ability to change comment when user saves the file.
+                    writer.WriteLine("#This is the default comment.");
+
+                    //Used when implementing custom comments
+                    //lastComment
+
+                    //Iterates through the rows
+                    for (int y = 0; y < universe.GetUniverse().GetLength(1); y++)
+                    {
+                        //Create a string to represent the current row.
+                        String currentRow = string.Empty;
+
+                        //Iterates through the columns
+                        for (int x = 0; x < universe.GetUniverse().GetLength(0); x++)
+                        {
+                            //If the universe[x,y] is alive then append 'O' (capital O)
+                            //to the row string.
+
+                            if (universe.GetAlive()[x, y])
+                            {
+
+                                currentRow += "O";
+
+                            }
+
+                            //Else if the universe[x,y] is dead then append 'X' (capital X)
+                            //to the row string.
+
+                            else
+                            {
+
+                                currentRow += "X";
+
+                            }
+                        }
+
+                        //Writes the Xs and Os to the .cells file
+                        writer.WriteLine(currentRow);
+
+                    }
+
+                    //Closes the file.
+                    writer.Close();
+                }
+            }
+        }
+
+        //Save As
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            //Creates new instance of a Save dialog window
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            //Enables the option to filter out all files except those with the .cells extention.
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+
+                //Creates file with name based on user input
+                StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                //Sets lastFileName variable to user input
+                lastFileName = dlg.FileName;
+
+                //Default Comment
+                //Going to add ability to change comment when user saves the file.
+                writer.WriteLine("#This is the default comment.");
+
+                //Used when implementing custom comments
+                //lastComment
+
+                //Iterates through the rows
+                for (int y = 0; y < universe.GetUniverse().GetLength(1); y++)
+                {
+                    //Create a string to represent the current row.
+                    String currentRow = string.Empty;
+
+                    //Iterates through the columns
+                    for (int x = 0; x < universe.GetUniverse().GetLength(0); x++)
+                    {
+                        //If the universe[x,y] is alive then append 'O' (capital O)
+                        //to the row string.
+
+                        if (universe.GetAlive()[x, y])
+                        {
+
+                            currentRow += "O";
+
+                        }
+
+                        //Else if the universe[x,y] is dead then append 'X' (capital X)
+                        //to the row string.
+
+                        else
+                        {
+
+                            currentRow += "X";
+
+                        }
+                    }
+
+                    //Writes the Xs and Os to the .cells file
+                    writer.WriteLine(currentRow);
+
+                }
+
+                //Closes the file.
+                writer.Close();
+            }
+        }
+
+        //Open file
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                //Variables used to calculate max width, max height, and what row the streamreader is on
+                int maxWidth = 0;
+                int maxHeight = 0;
+                int currentRow = 0;
+
+                //Goes through the file to determine size of the universe
+                while (!reader.EndOfStream)
+                {
+                    //Reads the rows one at a time
+                    string row = reader.ReadLine();
+
+                    //Used to ignore comments that start with '#'
+                    if (row.StartsWith("#"))
+                    {
+
+                        continue;
+
+                    }
+
+                    //If the row is not a comment increment maxHeight variable
+                    if (!row.StartsWith("#"))
+                    {
+
+                        maxHeight++;
+
+                    }
+                    
+                    //If the width is not the same as the row length it changes them to be the same
+                    if(maxWidth != row.Length)
+                    {
+
+                        maxWidth = row.Length;
+
+                    }
+                }
+
+                //Resizes universe to saved files config
+                universe.SetUniverse(maxWidth, maxHeight);
+
+                //Sets pointer to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                //Runs through the file reading cells and setting them to alive or dead
+                while (!reader.EndOfStream)
+                {
+                  
+                    //Reads one row at a time.
+                    string row = reader.ReadLine();
+
+                    currentRow++;
+
+                    //Used to ignore comments that start with '#'
+                    if (row.StartsWith("#"))
+                    {
+
+                        continue;
+
+                    }
+
+                    //Iterate through cells to see what to make active
+                    for (int xPos = 0; xPos < row.Length; xPos++)
+                    {
+                        //If the current position is an 'O' set it to active and alive
+                        if(row[xPos] == 'O')
+                        {
+
+                            universe.SetUniverse(xPos, currentRow, true);
+                            universe.SetAlive(xPos, currentRow, true);
+
+                        }
+                    }
+                }
+
+                //Closes the file.
+                reader.Close();
             }
         }
     }
