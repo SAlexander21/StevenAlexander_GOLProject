@@ -29,6 +29,7 @@ namespace StevenAlexander_GOLProject
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +42,9 @@ namespace StevenAlexander_GOLProject
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.universeOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateRandomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateFromSeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,10 +62,14 @@ namespace StevenAlexander_GOLProject
             this.Leap = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelGenerations = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusDeadAlive = new System.Windows.Forms.ToolStripStatusLabel();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.colorOptionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.graphicsPanel1 = new StevenAlexander_GOLProject.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -96,7 +104,7 @@ namespace StevenAlexander_GOLProject
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -106,14 +114,14 @@ namespace StevenAlexander_GOLProject
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -121,27 +129,27 @@ namespace StevenAlexander_GOLProject
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -157,21 +165,44 @@ namespace StevenAlexander_GOLProject
             // 
             // optionsToolStripMenuItem
             // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colorOptionsToolStripMenuItem,
+            this.universeOptionsToolStripMenuItem,
+            this.displayOptionsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
+            // 
+            // colorOptionsToolStripMenuItem
+            // 
+            this.colorOptionsToolStripMenuItem.Name = "colorOptionsToolStripMenuItem";
+            this.colorOptionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorOptionsToolStripMenuItem.Text = "&Color Options";
+            // 
+            // universeOptionsToolStripMenuItem
+            // 
+            this.universeOptionsToolStripMenuItem.Name = "universeOptionsToolStripMenuItem";
+            this.universeOptionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.universeOptionsToolStripMenuItem.Text = "&Universe Options";
+            this.universeOptionsToolStripMenuItem.Click += new System.EventHandler(this.universeOptionsToolStripMenuItem_Click);
+            // 
+            // displayOptionsToolStripMenuItem
+            // 
+            this.displayOptionsToolStripMenuItem.Name = "displayOptionsToolStripMenuItem";
+            this.displayOptionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.displayOptionsToolStripMenuItem.Text = "&Display Options";
             // 
             // generateRandomToolStripMenuItem
             // 
             this.generateRandomToolStripMenuItem.Name = "generateRandomToolStripMenuItem";
-            this.generateRandomToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.generateRandomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generateRandomToolStripMenuItem.Text = "&Generate Random";
             this.generateRandomToolStripMenuItem.Click += new System.EventHandler(this.generateRandomToolStripMenuItem_Click);
             // 
             // generateFromSeedToolStripMenuItem
             // 
             this.generateFromSeedToolStripMenuItem.Name = "generateFromSeedToolStripMenuItem";
-            this.generateFromSeedToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.generateFromSeedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generateFromSeedToolStripMenuItem.Text = "Generate from &Seed";
             this.generateFromSeedToolStripMenuItem.Click += new System.EventHandler(this.generateFromSeedToolStripMenuItem_Click);
             // 
@@ -305,7 +336,8 @@ namespace StevenAlexander_GOLProject
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelGenerations});
+            this.toolStripStatusLabelGenerations,
+            this.toolStripStatusDeadAlive});
             this.statusStrip1.Location = new System.Drawing.Point(0, 983);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(984, 22);
@@ -317,6 +349,27 @@ namespace StevenAlexander_GOLProject
             this.toolStripStatusLabelGenerations.Name = "toolStripStatusLabelGenerations";
             this.toolStripStatusLabelGenerations.Size = new System.Drawing.Size(90, 17);
             this.toolStripStatusLabelGenerations.Text = "Generations = 0";
+            // 
+            // toolStripStatusDeadAlive
+            // 
+            this.toolStripStatusDeadAlive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatusDeadAlive.Name = "toolStripStatusDeadAlive";
+            this.toolStripStatusDeadAlive.Size = new System.Drawing.Size(171, 17);
+            this.toolStripStatusDeadAlive.Text = "| Dead Cells = 0 | Alive Cells = 0";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colorOptionsToolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.ShowImageMargin = false;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(124, 26);
+            // 
+            // colorOptionsToolStripMenuItem1
+            // 
+            this.colorOptionsToolStripMenuItem1.Name = "colorOptionsToolStripMenuItem1";
+            this.colorOptionsToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.colorOptionsToolStripMenuItem1.Text = "&Color Options";
             // 
             // graphicsPanel1
             // 
@@ -350,6 +403,7 @@ namespace StevenAlexander_GOLProject
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -386,6 +440,12 @@ namespace StevenAlexander_GOLProject
         private System.Windows.Forms.ToolStripButton Leap;
         private System.Windows.Forms.ToolStripMenuItem generateRandomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateFromSeedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colorOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem universeOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displayOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusDeadAlive;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem colorOptionsToolStripMenuItem1;
     }
 }
 

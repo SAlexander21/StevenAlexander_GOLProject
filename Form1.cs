@@ -35,9 +35,16 @@ namespace StevenAlexander_GOLProject
         string lastFileName;
         //string lastComment;
 
+        //Custom X and Y size tracker
+        int customX = 25;
+        int customY = 25;
+
         public Form1()
         {
             InitializeComponent();
+
+            //Sets the dead or alive status strip to the default values
+            toolStripStatusDeadAlive.Text = " | Dead Cells = " + universe.countDed.ToString() + " | Alive Cells = " + universe.countAli.ToString();
 
             // Setup the timer
             timer.Interval = 100; // milliseconds
@@ -53,7 +60,7 @@ namespace StevenAlexander_GOLProject
             // Increment generation count
             generations++;
 
-            // Update status strip generations
+            //Updates generations status strip
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
         }
 
@@ -154,12 +161,14 @@ namespace StevenAlexander_GOLProject
                 {
 
                     universe.SetAlive(x, y, true);
+                    UpdateDedOrAlive(true);
 
                 }
                 else if (e.X <= (cellWidth * universe.GetUniverse().GetLength(0) - 1) && e.Y <= (cellHeight * universe.GetUniverse().GetLength(1) - 1) && !universe.GetUniverse()[x, y])
                 {
 
                     universe.SetAlive(x, y);
+                    UpdateDedOrAlive(false);
 
                 }
                 else
@@ -168,6 +177,9 @@ namespace StevenAlexander_GOLProject
 
 
                 }
+
+                //Updates dead or alive status on click
+                toolStripStatusDeadAlive.Text = " | Dead Cells = " + universe.countDed.ToString() + " | Alive Cells = " + universe.countAli.ToString();
 
                 //Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
@@ -201,6 +213,7 @@ namespace StevenAlexander_GOLProject
                     {
 
                         universe.SetAlive(x, y, false);
+                        UpdateDedOrAlive(false);
                         universe.SetUniverse(x, y, false);
 
                     }
@@ -209,6 +222,7 @@ namespace StevenAlexander_GOLProject
                     {
 
                         universe.SetAlive(x, y, false);
+                        UpdateDedOrAlive(false);
                         universe.SetUniverse(x, y, false);
                     }
 
@@ -224,15 +238,44 @@ namespace StevenAlexander_GOLProject
                     {
 
                         universe.SetAlive(x, y, true);
+                        UpdateDedOrAlive(true);
                         universe.SetUniverse(x, y, true);
 
                     }
                 }
             }
 
+            //Updates the dead or alive status strip each generation
+            toolStripStatusDeadAlive.Text = " | Dead Cells = " + universe.countDed.ToString() + " | Alive Cells = " + universe.countAli.ToString();
+
             // Tell Windows you need to repaint
             graphicsPanel1.Invalidate();
 
+        }
+
+        private void UpdateDedOrAlive(bool a)
+        {
+
+            if (a == false)
+            {
+
+                universe.countDed++;
+                universe.countAli--;
+
+            }
+            else if (a == true)
+            {
+
+                universe.countAli++;
+                universe.countDed--;
+
+            }
+            else
+            {
+
+
+
+            }
         }
 
         private int CountAdjacent(int x, int y)
@@ -313,18 +356,7 @@ namespace StevenAlexander_GOLProject
             generations = 0;
             toolStripStatusLabelGenerations.Text = "Generations = 0";
 
-            // Iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetUniverse().GetLength(1); y++)
-            {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetUniverse().GetLength(0); x++)
-                {
-
-                    universe.SetAlive(x, y, false);
-                    universe.SetUniverse(x, y, false);
-
-                }
-            }
+            universe = new Universe(10, 10);
 
             // Tell Windows you need to repaint
             graphicsPanel1.Invalidate();
@@ -349,18 +381,7 @@ namespace StevenAlexander_GOLProject
 
                 timer.Enabled = false;
 
-                // Iterate through the universe in the y, top to bottom
-                for (int y = 0; y < universe.GetUniverse().GetLength(1); y++)
-                {
-                    // Iterate through the universe in the x, left to right
-                    for (int x = 0; x < universe.GetUniverse().GetLength(0); x++)
-                    {
-
-                        universe.SetAlive(x, y, false);
-                        universe.SetUniverse(x, y, false);
-
-                    }
-                }
+                universe = new Universe(customX, customY);
 
                 generations = 0;
                 toolStripStatusLabelGenerations.Text = "Generations = 0";
@@ -476,6 +497,7 @@ namespace StevenAlexander_GOLProject
                         {
 
                             universe.SetAlive(x, y, true);
+                            UpdateDedOrAlive(true);
                             universe.SetUniverse(x, y, true);
 
                         }
@@ -483,6 +505,7 @@ namespace StevenAlexander_GOLProject
                         {
 
                             universe.SetAlive(x, y, false);
+                            UpdateDedOrAlive(false);
                             universe.SetUniverse(x, y, false);
 
                         }
@@ -523,6 +546,7 @@ namespace StevenAlexander_GOLProject
                         {
 
                             universe.SetAlive(x, y, true);
+                            UpdateDedOrAlive(true);
                             universe.SetUniverse(x, y, true);
 
                         }
@@ -530,6 +554,7 @@ namespace StevenAlexander_GOLProject
                         {
 
                             universe.SetAlive(x, y, false);
+                            UpdateDedOrAlive(false);
                             universe.SetUniverse(x, y, false);
 
                         }
@@ -824,6 +849,7 @@ namespace StevenAlexander_GOLProject
                         {
 
                             universe.SetUniverse(xPos, currentRow, true);
+                            UpdateDedOrAlive(true);
                             universe.SetAlive(xPos, currentRow, true);
 
                         }
@@ -832,9 +858,17 @@ namespace StevenAlexander_GOLProject
                     }
                 }
 
+                //Sets the dead or alive status strip on load
+                toolStripStatusDeadAlive.Text = " | Dead Cells = " + universe.countDed.ToString() + " | Alive Cells = " + universe.countAli.ToString();
+
                 //Closes the file.
                 reader.Close();
             }
+        }
+
+        private void universeOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

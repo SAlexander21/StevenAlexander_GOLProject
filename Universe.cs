@@ -10,8 +10,8 @@ namespace StevenAlexander_GOLProject
     //Class used to store cell info.
     public class Universe
     {
-        static int globalX = 25;
-        static int globalY = 25;
+        static int globalX = 50;
+        static int globalY = 50;
 
         //What is the status and size of the universe?
         private bool[,] universe = new bool[globalX, globalY];
@@ -25,6 +25,13 @@ namespace StevenAlexander_GOLProject
         //Does the cell have any friends?
         private int[,] numAdj = new int[globalX, globalY];
 
+        //Counts the number of alive cells.
+        public int countAli = 0;
+
+        //Counts the number of dead cells.
+        public int countDed = globalX * globalY;
+
+        //Default Constructor
         public Universe()
         {
 
@@ -32,11 +39,14 @@ namespace StevenAlexander_GOLProject
 
         }
 
+        //Constructor
         public Universe(int x, int y)
         {
 
             globalX = x;
             globalY = y;
+            countAli = 0;
+            countDed = x * y;
             universe = new bool[x, y];
             alive = new bool[x, y];
             genAlive = new int[x, y];
