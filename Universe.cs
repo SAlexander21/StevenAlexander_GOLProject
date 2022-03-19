@@ -10,14 +10,11 @@ namespace StevenAlexander_GOLProject
     //Class used to store cell info.
     public class Universe
     {
-        static int globalX = 50;
-        static int globalY = 50;
+        static int globalX = 10;
+        static int globalY = 10;
 
         //What is the status and size of the universe?
         private bool[,] universe = new bool[globalX, globalY];
-
-        //Is the cell alive or dead?
-        private bool[,] alive = new bool[globalX, globalY];
 
         //How long has the cell been alive?
         private int[,] genAlive = new int[globalX, globalY];
@@ -48,7 +45,6 @@ namespace StevenAlexander_GOLProject
             countAli = 0;
             countDed = x * y;
             universe = new bool[x, y];
-            alive = new bool[x, y];
             genAlive = new int[x, y];
             numAdj = new int[x, y];
 
@@ -66,21 +62,6 @@ namespace StevenAlexander_GOLProject
         {
 
             universe[x, y] = a;
-
-        }
-
-        //Getter/Setter for alive Boolean.
-        public bool[,] GetAlive()
-        {
-
-            return alive;
-
-        }
-
-        public void SetAlive(int x, int y, bool a = false)
-        {
-
-            alive[x, y] = a; 
 
         }
 
